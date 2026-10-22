@@ -1,0 +1,553 @@
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/custom/themes/modern/fonts/inter-var.woff2") format("woff2"); }
+/* Modern look for the CS Euro Auto CRM. Loaded after the stock SuiteP theme, so it only restyles; no core file is changed. */
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --ink: #111827;
+  --ink-2: #374151;
+  --muted: #6b7280;
+  --line: #e7e9f0;
+  --line-2: #f0f1f6;
+  --brand: #4f46e5;
+  --brand-2: #4338ca;
+  --brand-soft: #eef0ff;
+  --nav: #0f172a;
+  --good: #059669;
+  --warn: #d97706;
+  --bad: #dc2626;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 6px 18px rgba(16, 24, 40, .06);
+}
+
+html body, body button, body input, body select, body textarea {
+  font-family: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+html body { background: var(--bg) !important; color: var(--ink-2); font-size: 14.5px; }
+body a { color: var(--brand); }
+body a:hover { color: var(--brand-2); text-decoration: none; }
+
+/* ---- Top navigation ------------------------------------------------------------------------------------- */
+.navbar-inverse, .navbar-inverse .navbar-header, .desktop-toolbar { background: var(--nav) !important; border: 0 !important; box-shadow: 0 1px 0 rgba(255,255,255,.06); }
+.navbar-inverse { min-height: 58px; }
+#toolbar ul.navbar-nav > li > a, .desktop-toolbar ul li a, .desktop-toolbar .notCurrentTab a {
+  text-transform: none !important; letter-spacing: 0 !important; font-size: 14.5px !important; font-weight: 500 !important; color: #cbd5e1 !important;
+}
+#toolbar ul.navbar-nav > li > a:hover, .desktop-toolbar .notCurrentTab:hover a { color: #fff !important; background: rgba(255,255,255,.08) !important; border-radius: 8px; }
+.desktop-toolbar .currentTab, .desktop-toolbar .currentTab a, .desktop-toolbar li.current a, #toolbar .currentTab a {
+  color: #fff !important; background: rgba(99, 102, 241, .28) !important; border-radius: 8px; border-top: 0 !important; box-shadow: none !important;
+}
+.desktop-toolbar .currentTab a { font-weight: 600 !important; }
+.navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand { color: #cbd5e1; }
+.desktop-bar .suitepicon, .globalLinks-desktop .suitepicon, .navbar-brand .suitepicon { color: #cbd5e1; }
+.globalLinks-desktop .dropdown-toggle { border-radius: 8px; }
+/* the coral "Create" button */
+.navbar .btn, .desktop-bar .btn, #createLinkContainer .btn, .navbar-form .btn-primary, #createbuttonplaceholder,
+.navbar-inverse .btn-group > .btn, #globalLinks .btn-group > .btn { text-transform: none !important; letter-spacing: 0 !important; }
+#quickcreatetop > a.dropdown-toggle, #quickcreatetop a, .desktop-bar #quickcreatetop, #create-button, .navbar .dropdown-toggle.btn { background: var(--brand) !important; border-color: var(--brand) !important; color: #fff !important; border-radius: 10px !important; font-weight: 600; }
+
+/* The theme script hides menu items by comparing toolbar heights; a fixed height keeps every item visible. */
+.desktop-toolbar { height: 58px !important; white-space: nowrap; overflow: visible; }
+.desktop-toolbar ul.navbar-nav { display: flex !important; align-items: center; height: 58px; margin: 0; }
+.desktop-toolbar ul.navbar-nav > li { float: none !important; }
+.desktop-toolbar ul.navbar-nav > li.hidden { display: list-item !important; }
+.desktop-toolbar ul.navbar-nav > li > a, .desktop-toolbar ul.navbar-nav > li .currentTab a, .desktop-toolbar ul.navbar-nav > li .notCurrentTab a {
+  padding: 8px 14px !important; line-height: 1.2 !important; height: auto !important; border-radius: 8px;
+}
+.desktop-toolbar .currentTabLeft, .desktop-toolbar .notCurrentTabLeft, .desktop-toolbar .notCurrentTabRight { display: none !important; }
+.desktop-toolbar .currentTab, .desktop-toolbar .notCurrentTab { display: inline-block; margin: 0 2px; }
+.desktop-toolbar ul.navbar-nav .dropdown-menu a { color: var(--ink-2) !important; padding: 8px 12px !important; }
+.desktop-toolbar a.navbar-brand { padding: 0 14px !important; }
+
+/* ---- Side bar ------------------------------------------------------------------------------------------- */
+.actionMenuSidebar *:not(.suitepicon), .actionMenuSidebar ul, .actionMenuSidebar li, .actionMenuSidebar a, .actionmenulinks, .actionmenulinks a { background: transparent !important; }
+.actionMenuSidebar li.actionmenulinks a { display: flex; align-items: center; gap: 10px; padding: 9px 18px !important; border-radius: 10px; margin: 2px 10px; }
+.actionMenuSidebar li.actionmenulinks:hover a { background: var(--brand-soft) !important; }
+.side-bar-action-icon { background: var(--brand-soft) !important; border-radius: 10px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+.side-bar-action-icon .suitepicon { font-size: 18px; color: var(--brand) !important; }
+.sidebar_container .sidebar { padding-top: 10px; }
+.actionMenuSidebar .actionmenulink, .actionmenulink { padding: 0 !important; width: auto !important; white-space: nowrap; font-size: 14.5px; line-height: 1.2; flex: 1; }
+.actionMenuSidebar li.actionmenulinks a div { float: none !important; }
+.actionMenuSidebar { padding-top: 6px; }
+.recent-list li { padding: 2px 8px; }
+
+/* detail rows: label and value sit on one centred line */
+@media (min-width: 768px) {
+  .detail-view-row-item { display: flex; align-items: center; }
+  .detail-view-row-item > .label, .detail-view-row-item > .detail-view-field { float: none; }
+}
+.detail-view-row-item .label { margin: 0 !important; }
+input[type=button].button, input[type=submit].button, input.button { height: 36px; line-height: 1 !important; vertical-align: middle; }
+/* avatar button: icon + caret only, no clipped "Administrator" label */
+.globallabel-user { display: none !important; }
+#with-label.user-menu-button, .user-menu-button { background: rgba(255,255,255,.1) !important; border: 0 !important; border-radius: 10px !important; padding: 8px 10px !important; height: auto !important; width: auto !important; color: #e5e7eb !important; }
+.user-menu-button .suitepicon { color: #e5e7eb !important; font-size: 20px; }
+.actionMenuSidebar .actionmenulink, .actionmenulink { font-size: 14px !important; }
+.actionMenuSidebar li.actionmenulinks a { padding: 8px 14px !important; margin: 2px 8px !important; }
+.sidebar_container, .sidebar, #sidebar_container, .actionMenuSidebar, .recent-list, .sidebar .recent_h3 { background: #fff !important; }
+.sidebar_container { border-right: 1px solid var(--line); box-shadow: none; }
+.sidebar .recent_h3, .sidebar h2, .sidebar h3, .actionMenuSidebar h2 { color: var(--muted) !important; font-size: 11.5px !important; letter-spacing: .09em !important; text-transform: uppercase !important; font-weight: 700 !important; margin: 18px 18px 8px !important; }
+.sidebar a, .actionmenulinks a, .recent-list a, .sidebar .actionmenulink { color: var(--ink-2) !important; font-weight: 500; }
+.actionmenulinks, .recent-list li, .sidebar li { border: 0 !important; background: transparent !important; }
+.actionmenulinks:hover, .recent-list li:hover, .sidebar li:hover { background: var(--brand-soft) !important; }
+.actionmenulinks:hover a, .recent-list li:hover a { color: var(--brand) !important; }
+.sidebar .suitepicon, .side-bar-action-icon .suitepicon { color: var(--brand) !important; }
+.sidebar .recent_h3 + ul li .suitepicon { color: #9ca3af !important; }
+#buttontoggle, .button-toggle-expanded, .buttontoggle { background: #fff !important; border: 1px solid var(--line) !important; border-left: 0 !important; border-radius: 0 10px 10px 0 !important; box-shadow: var(--shadow); }
+
+/* ---- Page + titles -------------------------------------------------------------------------------------- */
+.main, .bootstrap-container, #content, .content { background: transparent !important; }
+#content { padding-top: 8px; }
+.moduleTitle, .moduleTitle h2, .module-title-text, h2.module-title-text {
+  font-size: 30px !important; font-weight: 750 !important; letter-spacing: -.02em !important; text-transform: none !important; color: var(--ink) !important; margin: 18px 0 8px !important;
+}
+.favorite-toggle, .suitepicon-action-favorite { color: #d1d5db; }
+
+/* ---- Tabs ----------------------------------------------------------------------------------------------- */
+.nav-tabs { border: 0 !important; margin: 14px 0 12px !important; display: flex; gap: 6px; flex-wrap: wrap; }
+.nav-tabs > li { float: none; margin: 0 !important; }
+.nav-tabs > li > a, .nav-tabs > li > a:focus {
+  background: #fff !important; color: var(--ink-2) !important; border: 1px solid var(--line) !important; border-radius: 10px !important;
+  text-transform: none !important; letter-spacing: 0 !important; font-size: 14px !important; font-weight: 600 !important; padding: 8px 18px !important; margin: 0 !important; box-shadow: none !important;
+}
+.nav-tabs > li > a:hover { background: var(--brand-soft) !important; color: var(--brand) !important; border-color: #c7cbff !important; }
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover { background: var(--brand) !important; border-color: var(--brand) !important; color: #fff !important; }
+.nav-tabs > li.tab-actions > a, .nav-tabs li.actions > a, .nav-tabs .dropdown > a.dropdown-toggle { background: #fff !important; color: var(--brand) !important; border-color: #c7cbff !important; }
+
+/* ---- Detail view ---------------------------------------------------------------------------------------- */
+.tab-content, .panel.panel-default, .panel-default {
+  background: var(--surface) !important; border: 1px solid var(--line) !important; border-radius: var(--radius) !important; box-shadow: var(--shadow) !important; overflow: hidden;
+}
+.tab-content { padding: 10px 14px !important; }
+.panel-default > .panel-heading, .panel-heading { background: #fff !important; border-bottom: 1px solid var(--line) !important; color: var(--ink) !important; }
+.panel-title, .panel-heading .panel-title a { text-transform: none !important; letter-spacing: 0 !important; font-weight: 650 !important; color: var(--ink) !important; font-size: 16px !important; }
+.detail-view-row { border: 0 !important; padding: 2px 0; }
+.detail-view-row-item { border-bottom: 1px solid var(--line-2); padding: 4px 6px !important; }
+.detail-view .label, .detail-view-row .label, .col-1-label, .edit-view-row .label {
+  background: transparent !important; color: var(--muted) !important; font-size: 13px !important; font-weight: 600 !important; text-transform: none !important; letter-spacing: 0 !important; text-align: left !important; padding: 12px 8px !important;
+}
+.detail-view-field, .detail-view-row .detail-view-field {
+  background: transparent !important; color: var(--ink) !important; font-size: 15px !important; font-weight: 500; padding: 12px 8px !important; border-radius: 8px;
+}
+.detail-view-field.inlineEdit:hover { background: var(--brand-soft) !important; }
+.detail-view-field a, .detail-view-field a:visited { color: var(--brand) !important; font-weight: 600; }
+.inlineEditIcon .suitepicon { color: var(--brand) !important; }
+
+/* ---- Buttons -------------------------------------------------------------------------------------------- */
+.btn, button.button, input.button, input[type=submit].button, a.button {
+  border-radius: 10px !important; text-transform: none !important; letter-spacing: 0 !important; font-weight: 600 !important; font-size: 14px !important; box-shadow: none !important; transition: background .15s, border-color .15s, color .15s;
+}
+.btn-primary, input.button.primary, .button.primary { background: var(--brand) !important; border: 1px solid var(--brand) !important; color: #fff !important; }
+.btn-primary:hover, input.button.primary:hover { background: var(--brand-2) !important; border-color: var(--brand-2) !important; }
+.btn-default, .btn-secondary { background: #fff !important; border: 1px solid var(--line) !important; color: var(--ink-2) !important; }
+.btn-default:hover { background: var(--brand-soft) !important; border-color: #c7cbff !important; color: var(--brand) !important; }
+.btn-danger { background: #fff !important; color: var(--bad) !important; border: 1px solid #fecaca !important; }
+input[type=text], input[type=password], input[type=email], input[type=search], select, textarea, .form-control {
+  border: 1px solid #d9dce6 !important; border-radius: 10px !important; background: #fff !important; color: var(--ink) !important; box-shadow: none !important;
+}
+input:focus, select:focus, textarea:focus, .form-control:focus { border-color: var(--brand) !important; box-shadow: 0 0 0 3px rgba(79, 70, 229, .15) !important; outline: 0; }
+
+/* ---- List view ------------------------------------------------------------------------------------------ */
+.listViewBody, .list-view-rounded-corners { border-radius: var(--radius) !important; overflow: hidden; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+table.list.view, .list-view-rounded-corners table.list { border-collapse: separate; border-spacing: 0; width: 100%; }
+table.list.view > thead > tr > th, table.list.view th, .list-view-rounded-corners th {
+  background: #fafbff !important; color: var(--muted) !important; font-size: 12.5px !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: .01em !important; border: 0 !important; border-bottom: 1px solid var(--line) !important; padding: 14px 10px !important;
+}
+table.list.view th a, table.list.view th a:visited, table.list.view th .listViewThLinkS1 { color: var(--muted) !important; }
+table.list.view tr.pagination, table.list.view tr.pagination td, .paginationTable, td.paginationActionButtons, td.paginationChangeButtons, .pagination-unique, .pagination-bottom, .pagination-top {
+  background: #fff !important; border: 0 !important; color: var(--muted);
+}
+tr.oddListRowS1 > td, tr.evenListRowS1 > td, table.list.view td { background: #fff !important; border: 0 !important; border-bottom: 1px solid var(--line-2) !important; padding: 13px 10px !important; color: var(--ink-2) !important; font-size: 14px !important; }
+tr.oddListRowS1:hover > td, tr.evenListRowS1:hover > td { background: #f7f8ff !important; }
+table.list.view td a, table.list.view td b a { color: var(--brand) !important; font-weight: 600; }
+.paginationActionButtons .btn, .paginationActionButtons button, .selectActionsDisabled, .selectActions, .listViewButtons .btn, .sugar_action_button, .sugar_action_button .btn {
+  background: #fff !important; border: 1px solid var(--line) !important; color: var(--ink-2) !important; border-radius: 8px !important; box-shadow: none !important; text-transform: none !important; letter-spacing: 0 !important;
+}
+.selectedRecords, .selected-actions-label { color: var(--muted) !important; }
+.paginationTable td, td.paginationActionButtons, td.paginationChangeButtons { padding: 10px 8px !important; }
+input[type=button].button, input[type=submit].button, input.button { background: #fff !important; color: var(--brand) !important; border: 1px solid #c7cbff !important; padding: 7px 16px !important; }
+input[type=button].button:hover, input.button:hover { background: var(--brand-soft) !important; }
+.list-view-pagination-button, .paginationChangeButtons button, .selectActions .btn { background: #fff !important; border: 1px solid var(--line) !important; border-radius: 8px !important; color: var(--ink-2) !important; }
+.suitepicon { color: inherit; }
+.listViewBody .suitepicon-action-edit { color: #9ca3af; }
+
+/* ---- Home dashlets -------------------------------------------------------------------------------------- */
+.dashletPanel, .dashletcontainer, .dashlet { background: var(--surface) !important; border: 1px solid var(--line) !important; border-radius: var(--radius) !important; box-shadow: var(--shadow) !important; overflow: hidden; margin-bottom: 18px !important; }
+.dashletPanel .hd, .dashletPanel .hd-center, .dashlet-title, .dashletPanel h3, .hd, .hd-center { background: #fff !important; color: var(--ink) !important; border: 0 !important; border-bottom: 1px solid var(--line) !important; }
+.dashlet-title h3, .dashletPanel .hd h3, .dashlet-title { text-transform: none !important; letter-spacing: 0 !important; font-size: 15.5px !important; font-weight: 700 !important; color: var(--ink) !important; }
+.dashletPanel .hd .suitepicon, .dashletToolSet .suitepicon, .dashletPanel .hd a { color: #9ca3af !important; }
+.dashletPanel .bd, .dashletPanel .bd-center { background: #fff !important; }
+.dashletPanel table.list th { background: #fafbff !important; }
+.dashletPanel .noBulkDeleteWithoutBulkSelect, .dashletPanel tr.oddListRowS1 td, .dashletPanel tr.evenListRowS1 td { background: #fff !important; }
+.dashletPanel .pagination, .dashletPanel .listViewPaginationTdS1 { background: #fff !important; }
+
+table.formHeader, table.formHeader.h3Row, .dashletPanel table.formHeader, .dashletPanel .formHeader td { background: transparent !important; }
+.dashletToolSet, .dashletPanel .dashletToolSet, .dashletPanel .hd .dashletToolSet { background: transparent !important; box-shadow: none !important; border: 0 !important; }
+.dashletToolSet a, .dashletToolSet .suitepicon { color: #9ca3af !important; background: transparent !important; }
+.dashletToolSet a:hover .suitepicon { color: var(--brand) !important; }
+.dashletPanel .hd, .dashletPanel .hd-center, .dashletPanel .hd .tl, .dashletPanel .hd .tr { padding-top: 4px; padding-bottom: 4px; }
+.dashletPanel .list-view-pagination-button, .dashletPanel .pagination button, .dashletPanel .paginationChangeButtons button, .dashletPanel .paginationChangeButtons .btn {
+  background: #fff !important; border: 1px solid var(--line) !important; color: var(--ink-2) !important; border-radius: 8px !important;
+}
+.dashletPanel .suitepicon-action-first, .dashletPanel .suitepicon-action-left, .dashletPanel .suitepicon-action-right, .dashletPanel .suitepicon-action-last { color: var(--ink-2) !important; }
+.dashletPanel table.list th, .dashletPanel table.list.view th { background: #fafbff !important; }
+.dashletPanel td.paginationChangeButtons, .dashletPanel td.paginationActionButtons, .dashletPanel .pagination td { background: #fff !important; }
+
+/* ---- Footer + misc -------------------------------------------------------------------------------------- */
+#footer, footer, .footer, #bootstrap-container + div { background: transparent !important; color: var(--muted) !important; border: 0 !important; }
+#footer a, footer a { color: var(--muted) !important; }
+.modal-content { border-radius: var(--radius) !important; border: 0 !important; box-shadow: 0 20px 60px rgba(16, 24, 40, .25) !important; }
+.dropdown-menu { border: 1px solid var(--line) !important; border-radius: 12px !important; box-shadow: var(--shadow) !important; padding: 6px !important; }
+.dropdown-menu > li > a { border-radius: 8px; color: var(--ink-2) !important; }
+.dropdown-menu > li > a:hover { background: var(--brand-soft) !important; color: var(--brand) !important; }
+
+/* ---- Login ---------------------------------------------------------------------------------------------- */
+body:has(.p_login), .p_login { background: radial-gradient(1100px 560px at 15% -10%, #e0e7ff 0%, transparent 60%), radial-gradient(900px 500px at 100% 0%, #fce7f3 0%, transparent 55%), #f5f6fa !important; min-height: 100vh; }
+.p_login_top { background: var(--nav) !important; height: 58px; display: flex !important; align-items: center; padding: 0 28px !important; border: 0 !important; }
+.p_login_top a { background: none !important; text-indent: 0 !important; width: auto !important; height: auto !important; font-size: 0 !important; color: #fff !important; text-decoration: none !important; }
+.p_login_top a::after { content: "CS Euro Auto CRM"; font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: #fff; }
+.p_login_middle { background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 56px 16px 0 !important; max-width: none !important; width: auto !important; margin: 0 auto !important; float: none !important; }
+#loginform { max-width: 430px; margin: 0 auto; }
+.form-signin { background: #fff !important; padding: 36px 34px 30px !important; border-radius: 20px !important; border: 1px solid var(--line) !important; box-shadow: 0 24px 70px rgba(16, 24, 40, .12) !important; max-width: 430px !important; margin: 0 auto !important; }
+.form-signin .companylogo { text-align: center; margin-bottom: 8px; }
+.form-signin .companylogo img { display: none; }
+.form-signin .companylogo::before { content: "Welcome back"; display: block; font-size: 28px; font-weight: 750; letter-spacing: -.02em; color: var(--ink); }
+.form-signin .companylogo::after { content: "Sign in to the sales CRM"; display: block; font-size: 14.5px; color: var(--muted); margin-top: 6px; }
+.form-signin, #loginform { height: auto !important; min-height: 0 !important; overflow: visible !important; }
+.p_login_bottom { background: transparent !important; }
+.form-signin .input-group { display: block; width: 100%; margin-bottom: 4px; }
+.form-signin .input-group-addon, .form-signin .input-group .suitepicon { display: none !important; }
+.form-signin input.form-control { height: 48px !important; font-size: 15px !important; padding: 0 14px !important; width: 100% !important; border-radius: 12px !important; background: #fff !important; }
+.form-signin br { display: none; }
+.form-signin .input-group { margin-top: 12px; }
+.form-signin #bigbutton, .form-signin .btn-primary, .form-signin .btn-lg, .form-signin .btn-block { background: var(--brand) !important; border: 0 !important; border-radius: 12px !important; font-size: 15px !important; font-weight: 700 !important; height: 48px !important; line-height: 48px !important; padding: 0 !important; margin-top: 18px !important; text-transform: none !important; letter-spacing: 0 !important; color: #fff !important; width: 100% !important; display: block; }
+.form-signin #bigbutton:hover { background: var(--brand-2) !important; }
+.form-signin a { color: var(--brand) !important; font-size: 13.5px; }
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==== v2 ==== */
+:root { --violet: #7c3aed; --radius: 16px; --shadow: 0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06); --shadow-lg: 0 12px 40px rgba(16,24,40,.12); }
+html { scroll-behavior: smooth; }
+::selection { background: #c7d2fe; color: #1e1b4b; }
+* { scrollbar-width: thin; scrollbar-color: #cdd2e3 transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; } ::-webkit-scrollbar-thumb { background: #cdd2e3; border-radius: 10px; border: 2px solid transparent; background-clip: content-box; } ::-webkit-scrollbar-track { background: transparent; }
+html body { font-feature-settings: "cv11", "ss01"; letter-spacing: -.006em; }
+h1, h2, h3, .moduleTitle h2 { letter-spacing: -.022em; }
+
+/* ---- Sidebar: icon and text centred on one line ---------------------------------------------------------- */
+.actionMenuSidebar li.actionmenulinks a { align-items: center !important; min-height: 46px; }
+.actionMenuSidebar li.actionmenulinks a > div { margin: 0 !important; }
+.actionMenuSidebar .actionmenulink { display: flex; align-items: center; height: 100%; }
+.side-bar-action-icon { flex: none; margin: 0 !important; }
+.actionMenuSidebar li.actionmenulinks.current a, .actionMenuSidebar li.actionmenulinks.active a { background: var(--brand-soft) !important; }
+.recent-list li a { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px; }
+
+/* ---- Panels, subpanels and section bars (were slate-grey) ------------------------------------------------ */
+.panel-heading, .panel-default > .panel-heading, .panel-heading.collapsed, .subpanel .panel-heading, a.collapsed, .panel-heading a, .panel-heading a.collapsed, [id^="subpanel_title_"] {
+  background: #fff !important; color: var(--ink) !important; border-color: var(--line) !important;
+}
+.panel-heading { border-bottom: 1px solid var(--line-2) !important; padding: 0 !important; }
+.panel-heading a, .panel-heading .suitepicon, a[id^="subpanel_title_"] { color: var(--ink) !important; text-transform: none !important; letter-spacing: -.01em !important; font-size: 15.5px !important; font-weight: 700 !important; }
+.panel-heading a { display: flex !important; align-items: center; gap: 10px; padding: 15px 20px !important; }
+.panel-heading a .suitepicon { color: var(--brand) !important; font-size: 18px; }
+.panel-heading .glyphicon-plus, .panel-heading .glyphicon-minus, .panel-heading .suitepicon-action-minus, .panel-heading .suitepicon-action-plus { color: #9ca3af !important; margin-left: auto; }
+.sub-panel, .panel.panel-default.sub-panel { margin-bottom: 14px !important; }
+.panel-body { background: #fff !important; padding: 14px 18px !important; }
+.panel-collapse .panel-body, .panel-body table.list { border-radius: 12px; overflow: hidden; }
+
+/* subpanel / group filter pills: All, Sales, Marketing ... */
+.subpanel-tabs .nav-tabs > li > a, #subpanel_tabs .nav-tabs > li > a, ul.subpanelTablist li a, .nav-tabs.subpanel-tabs > li > a { padding: 6px 16px !important; font-size: 13px !important; }
+
+/* ---- Tables: header strip, empty states ------------------------------------------------------------------ */
+thead, table.list thead, table.list.view thead, thead tr { background: #fafbff !important; }
+table.list.view tr.pagination-top td, table.list.view tr.pagination td { border-bottom: 1px solid var(--line-2) !important; }
+table.list.view th .suitepicon, table.list.view th img { opacity: .55; }
+.listViewEmpty, td.listViewEmpty, .list-view-empty, table.list tr td[colspan] em, tr.oddListRowS1 td em, .noDataIndicator { color: var(--muted) !important; font-style: normal !important; }
+table.list.view tr.oddListRowS1:nth-child(even) > td, table.list.view tr.evenListRowS1 > td { background: #fff !important; }
+
+/* ---- Edit forms ------------------------------------------------------------------------------------------ */
+.edit-view-row-item, .edit-view-row .col-sm-6 { padding: 6px 10px !important; }
+.edit-view-row .label, .edit-view-field-label { padding: 14px 8px 8px !important; color: var(--muted) !important; font-weight: 600 !important; font-size: 13px !important; text-align: left !important; background: transparent !important; }
+.edit-view-field input[type=text], .edit-view-field input[type=password], .edit-view-field input[type=email], .edit-view-field input[type=number], .edit-view-field select, .edit-view-field textarea,
+.edit-view-field .form-control, .edit-view input[type=text], .edit-view select, .edit-view textarea { width: 100% !important; min-height: 42px; padding: 8px 12px !important; font-size: 14.5px !important; }
+.edit-view-field textarea { min-height: 120px; }
+.edit-view-field .input-group-btn, .edit-view-field td { vertical-align: middle; }
+.required, span.required { color: #ef4444 !important; }
+.edit-view .tab-content, .edit-view .panel-body { padding: 16px 18px !important; }
+/* picker buttons beside fields (select record / clear) were coral */
+button.button.firstChild, button.button.lastChild, button[id^="btn_"], button[id^="btn_clr_"] {
+  background: #fff !important; border: 1px solid #d9dce6 !important; color: var(--brand) !important; border-radius: 10px !important; width: 42px; height: 42px; padding: 0 !important; box-shadow: none !important;
+}
+button.button.firstChild:hover, button.button.lastChild:hover { background: var(--brand-soft) !important; border-color: #c7cbff !important; }
+button.button.firstChild .suitepicon, button.button.lastChild .suitepicon, button[id^="btn_"] .suitepicon, button[id^="btn_"] .glyphicon { color: var(--brand) !important; }
+/* edit view tab strip (inactive tabs were pale blue-grey) */
+#EditView .nav-tabs > li > a, #EditView .nav-tabs a[id^="tab"], .edit-view .nav-tabs > li > a { background: #fff !important; color: var(--ink-2) !important; border: 1px solid var(--line) !important; }
+#EditView .nav-tabs > li.active > a, .edit-view .nav-tabs > li.active > a { background: var(--brand) !important; color: #fff !important; border-color: var(--brand) !important; }
+/* the primary action buttons: Save, Convert, etc. */
+button.button.primary, input.button.primary, input[type=submit].button.primary, input[type=button].button.primary, .button.primary, #SAVE, #SAVE_HEADER, #SAVE_FOOTER {
+  background: linear-gradient(135deg, var(--brand), var(--violet)) !important; color: #fff !important; border: 0 !important; box-shadow: 0 6px 16px rgba(79,70,229,.28) !important;
+}
+button.button.primary:hover, input.button.primary:hover { filter: brightness(1.07); }
+input.btn.btn-info, .btn-info { background: var(--brand-soft) !important; color: var(--brand) !important; border: 1px solid #c7cbff !important; }
+.action_buttons, .buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0 14px; }
+
+/* ---- Calendar -------------------------------------------------------------------------------------------- */
+.monthHeader, .row.monthHeader, thead.fc-head, td.fc-head-container, .fc-widget-header, th.fc-day-header, th.fc-axis, #cal-grid thead, .fc-head, .fc-head-container {
+  background: #fafbff !important; color: var(--muted) !important; border-color: var(--line) !important;
+}
+.monthHeader, .row.monthHeader { background: #fff !important; color: var(--ink) !important; border-radius: 14px 14px 0 0; padding: 12px 8px; font-size: 16px; font-weight: 700; }
+.monthHeader * { color: var(--ink) !important; }
+th.fc-day-header { font-size: 13px !important; font-weight: 700 !important; text-transform: none !important; padding: 10px 4px !important; }
+.monthCalBody, .fc-view, .fc-body, .fc-widget-content { background: #fff !important; border-color: var(--line-2) !important; }
+.fc-today, td.fc-today, .fc-widget-content.fc-today { background: #f5f3ff !important; }
+.fc-event, .fc-time-grid-event, .fc-day-grid-event { border-radius: 8px !important; border: 0 !important; background: linear-gradient(135deg, var(--brand), var(--violet)) !important; box-shadow: 0 4px 10px rgba(79,70,229,.25); }
+.fc-widget-content, .fc td, .fc th { border-color: var(--line-2) !important; }
+#cal-grid, .calendar-container, #content #calendar { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); }
+#settingsButton, button#settingsButton, .calendar-settings { background: #fff !important; color: var(--brand) !important; border: 1px solid #c7cbff !important; border-radius: 10px !important; }
+#cal-tabs li a, #cal-mini-btn, .cal-nav-btn { border-radius: 10px !important; }
+
+/* ---- Administration + module launch icons ---------------------------------------------------------------- */
+.admin-icon, .admin_icon, .adminlink .suitepicon, .admin-icon-link .suitepicon, .wizard-icon { color: var(--brand) !important; }
+.admin-icon, .admin_icon, td.admin-icon-cell .suitepicon, .adminIcon { border-color: #c7cbff !important; background: var(--brand-soft) !important; }
+table.other.view tr, table.other.view td, .admin-link-row { border-color: var(--line-2) !important; }
+.admin-link-row:hover, table.other.view tr:hover td { background: #fafbff !important; }
+.adminpanel, .admin-panel, .other.view { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.moduleTitle + h3, .admin-header, h4.admin-title, #content h4 { color: var(--ink); font-weight: 700; }
+.dropdown-menu > li.selected, li.selected { background: var(--brand-soft) !important; color: var(--brand) !important; }
+
+/* ---- Pagination, filters, modals ------------------------------------------------------------------------- */
+.modal-header { border-bottom: 1px solid var(--line-2) !important; background: #fff !important; border-radius: 16px 16px 0 0; }
+.modal-title { font-weight: 700 !important; letter-spacing: -.015em; }
+.modal-footer { border-top: 1px solid var(--line-2) !important; background: #fcfcfe !important; border-radius: 0 0 16px 16px; }
+.modal-backdrop.in { opacity: .35 !important; background: #0f172a; backdrop-filter: blur(3px); }
+.search-form, .search_form, .searchFormPanel, #searchform, .modal-filter { border-radius: 14px; }
+.filter-tabs li a, .search_tab, ul.search_tabs li a { border-radius: 10px !important; }
+.pagination-unique .btn, .paginationChangeButtons button { min-width: 34px; height: 34px; }
+.sugar_action_button .dropdown-menu, .SugarActionMenu .dropdown-menu { min-width: 180px; }
+
+/* ---- Stage pills (added by modern.js) -------------------------------------------------------------------- */
+.stage-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 650; letter-spacing: 0; white-space: nowrap; line-height: 1.5; }
+.stage-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .85; }
+.stage-pill.ph-lead { background: #e0e7ff; color: #3730a3; }
+.stage-pill.ph-eval { background: #ede9fe; color: #5b21b6; }
+.stage-pill.ph-deal { background: #fef3c7; color: #92400e; }
+.stage-pill.ph-delivery { background: #ccfbf1; color: #115e59; }
+.stage-pill.ph-done { background: #d1fae5; color: #065f46; }
+.stage-pill.ph-refund { background: #fee2e2; color: #991b1b; }
+td .stage-pill, .detail-view-field .stage-pill { font-size: 12.5px; }
+
+/* ---- Fixes found in review ------------------------------------------------------------------------------- */
+.actionMenuSidebar li.actionmenulinks a .actionmenulink { display: flex !important; align-items: center !important; line-height: 1.25 !important; height: 48px !important; }
+.actionMenuSidebar li.actionmenulinks a { gap: 12px; }
+.edit-view-field[type="relate"], .edit-view-field[type="date"], .edit-view-field[type="datetime"], .edit-view-field[type="datetimecombo"] { display: flex !important; flex-wrap: wrap; align-items: center; gap: 8px; }
+.edit-view-field[type="relate"] > input[type=text], .edit-view-field[type="date"] > input[type=text], .edit-view-field[type="datetime"] > input[type=text], .edit-view-field[type="datetimecombo"] input[type=text] { flex: 1 1 160px; width: auto !important; min-width: 0; }
+.edit-view-field[type="relate"] > button, .edit-view-field[type="date"] > button, .edit-view-field[type="datetimecombo"] button { flex: none; }
+.edit-view-field .yui-ac-container { position: absolute; z-index: 50; }
+.fc th, .fc-head th, .fc-head *, .fc-head-container *, .fc-widget-header, th.fc-day-header, th.fc-axis, thead.fc-head th span, .monthHeader span, .monthHeader div, .monthHeader a { color: var(--ink-2) !important; }
+.fc-axis, .fc-time span { color: var(--muted) !important; font-size: 12.5px; }
+.fc-head .fc-resource-cell, .fc-head th.fc-widget-header a { color: var(--ink) !important; font-weight: 700; }
+
+/* an empty tab-content wrapper was drawn as a blank card */
+.tab-content:not(:has(.detail-view-row, .edit-view-row, .panel, table, .tab-pane.active, .tab-pane.in)) { background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; min-height: 0 !important; margin: 0 !important; }
+/* date field: input and calendar button on one line, calendar button no longer red */
+span.dateTime { display: flex !important; align-items: center; gap: 8px; width: 100%; }
+span.dateTime input[type=text], span.dateTime input.date_input { flex: 1 1 auto; width: auto !important; min-width: 0; }
+span.dateTime .btn, button[id$="_trigger"] { flex: none; width: 42px; height: 42px; padding: 0 !important; background: #fff !important; border: 1px solid #d9dce6 !important; color: var(--brand) !important; border-radius: 10px !important; }
+span.dateTime .btn .suitepicon, button[id$="_trigger"] .suitepicon { color: var(--brand) !important; }
+/* calendar: user name row in the header */
+h5.calSharedUser, .calSharedUser, #calendarContainer h5 { color: var(--ink) !important; font-size: 14px; font-weight: 700; letter-spacing: -.01em; }
+.calSharedUser, .calSharedUserContainer, #shared_cal_edit, .monthCalBody ~ * { background: transparent !important; }
+/* administration icons were coral */
+.suitepicon[class*="suitepicon-admin-"] { color: var(--brand) !important; border-color: #c7cbff !important; background: var(--brand-soft) !important; }
+.tabDetailViewDL2Link { color: var(--brand) !important; font-weight: 650; }
+
+/* sidebar labels wrap instead of being cut off */
+.actionMenuSidebar li.actionmenulinks a .actionmenulink { white-space: normal !important; height: auto !important; min-height: 48px; padding: 6px 0 !important; word-break: normal; }
+/* small old-style YUI tabs (user profile, etc.) */
+ul.yui-nav, .yui-nav { border: 0 !important; display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 !important; padding: 0 !important; background: transparent !important; }
+.yui-nav li, .yui-nav li.selected, .yui-nav li:hover { float: none !important; margin: 0 !important; height: auto !important; overflow: visible !important; background: transparent !important; line-height: 1.3 !important; border: 0 !important; }
+.yui-nav li a { background: #fff !important; border: 1px solid var(--line) !important; border-radius: 10px !important; color: var(--ink-2) !important; padding: 8px 16px !important; font-size: 13px !important; font-weight: 650 !important; text-transform: none !important; letter-spacing: 0 !important; box-shadow: none !important; display: block !important; height: auto !important; line-height: 1.3 !important; overflow: visible !important; }
+.yui-nav li a em { background: transparent !important; border: 0 !important; padding: 0 !important; margin: 0 !important; color: inherit !important; display: inline !important; height: auto !important; line-height: 1.3 !important; font-style: normal !important; font-size: inherit !important; font-weight: inherit !important; box-shadow: none !important; }
+.yui-nav li.selected a, .yui-nav li.selected a:hover { background: var(--brand) !important; color: #fff !important; border-color: var(--brand) !important; }
+.yui-nav, .yui-navset .yui-nav { height: auto !important; overflow: visible !important; }
+.yui-content, .yui-navset .yui-content { border: 0 !important; background: transparent !important; padding: 0 !important; }
+/* multi-selects, file inputs and plain buttons */
+select[multiple], select[size] { background: #fff !important; padding: 6px !important; }
+select[multiple] option, select[size] option { padding: 6px 10px; border-radius: 6px; }
+select[multiple] option:checked, select[size] option:checked { background: linear-gradient(#e0e7ff, #e0e7ff) !important; color: var(--brand) !important; }
+input[type=file]::file-selector-button { background: var(--brand-soft); color: var(--brand); border: 1px solid #c7cbff; border-radius: 10px; padding: 8px 14px; font-weight: 650; margin-right: 10px; cursor: pointer; font-family: inherit; }
+button.button:not(.primary):not(.firstChild):not(.lastChild), button.btn[disabled], .btn.disabled, button[disabled] { background: #fff !important; color: var(--ink-2) !important; border: 1px solid var(--line) !important; box-shadow: none !important; }
+button[disabled], .btn[disabled] { opacity: .55; }
+/* lead / contact name: salutation and first name share one line */
+.edit-view-field[field="first_name"] { display: flex !important; gap: 8px; align-items: center; }
+.edit-view-field[field="first_name"] select { width: 104px !important; flex: none; }
+.edit-view-field[field="first_name"] input[type=text] { flex: 1; width: auto !important; }
+input[type=checkbox] { accent-color: var(--brand); width: 17px; height: 17px; }
+
+/* ==== Dashboard widgets: one clean card each ==== */
+/* SuiteCRM builds a widget from nested old-style pieces (corner divs, header table, footer strip). Reset all of them,
+   then draw a single card with a single header line. */
+.dashletPanel .tl, .dashletPanel .tr, .dashletPanel .ml, .dashletPanel .mr, .dashletPanel .bl, .dashletPanel .br, .dashletPanel .ft, .dashletPanel .ft-center { display: none !important; }
+.dashletPanel { background: #fff !important; border: 1px solid var(--line) !important; border-radius: 16px !important; box-shadow: var(--shadow) !important; overflow: hidden !important; margin: 0 0 20px !important; padding: 0 !important; }
+.dashletPanel .hd, .dashletPanel .hd.dashlet, .dashletPanel .hd-center, .dashletPanel .bd, .dashletPanel .bd-center {
+  background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; overflow: visible !important;
+}
+.dashletPanel .hd { border-bottom: 1px solid var(--line-2) !important; }
+.dashletPanel .hd-center { padding: 14px 18px 13px !important; }
+.dashletPanel table.formHeader, .dashletPanel table.formHeader td { background: transparent !important; border: 0 !important; padding: 0 !important; box-shadow: none !important; }
+.dashletPanel .dashlet-title, .dashletPanel .dashlet-title h3, .dashletPanel h3 { border: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; display: flex; align-items: center; gap: 10px; font-size: 15.5px !important; font-weight: 700 !important; letter-spacing: -.01em !important; color: var(--ink) !important; text-transform: none !important; }
+.dashletPanel .dashlet-title .suitepicon { color: var(--brand) !important; font-size: 18px; }
+.dashletPanel .dashlet-title .suitepicon-module-::before { content: "\2726"; font-family: inherit !important; font-size: 17px; }
+.dashletPanel .dashletToolSet { display: flex; gap: 4px; align-items: center; justify-content: flex-end; }
+.dashletPanel .dashletToolSet a { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; }
+.dashletPanel .dashletToolSet a:hover { background: var(--brand-soft) !important; }
+.dashletPanel .dashletToolSet .suitepicon { font-size: 15px; }
+.dashletPanel .bd-center { padding: 0 !important; }
+/* tables inside widgets: no second card, no huge empty pagination bars */
+.dashletPanel .listViewBody, .dashletPanel .list-view-rounded-corners, .dashletPanel .listViewBody table { border: 0 !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important; }
+.dashletPanel table.list.view { margin: 0 !important; }
+.dashletPanel table.list.view tr.pagination td, .dashletPanel .pagination { padding: 6px 12px !important; }
+.dashletPanel table.list.view tr.pagination { height: auto !important; }
+.dashletPanel table.list.view th { padding: 10px 12px !important; }
+.dashletPanel table.list.view td { padding: 11px 12px !important; }
+
+/* ==== Dropdown menus: white cards everywhere (module menus, Create, profile, All, bulk actions) ==== */
+.dropdown-menu, .navbar .dropdown-menu, .desktop-toolbar .dropdown-menu, .navbar-nav .dropdown-menu, ul.dropdown-menu.user-menu, ul.dropdown-menu.user-dropdown, #overflow-menu, .quickcreatetop .dropdown-menu, .searchformdropdown, .mobile_menu {
+  background: #fff !important; border: 1px solid var(--line) !important; border-radius: 14px !important; box-shadow: 0 18px 50px rgba(16, 24, 40, .20), 0 2px 6px rgba(16, 24, 40, .06) !important; padding: 8px !important; margin-top: 10px !important; min-width: 230px;
+}
+.dropdown-menu > li, .dropdown-menu li { background: transparent !important; border: 0 !important; margin: 0 !important; }
+.dropdown-menu > li > a, .dropdown-menu li a, .desktop-toolbar .dropdown-menu a, ul.user-menu li a, .mobile_menu li a {
+  display: block !important; background: transparent !important; color: var(--ink-2) !important; padding: 10px 14px !important; border-radius: 10px !important; font-size: 14.5px !important; font-weight: 550 !important; text-transform: none !important; letter-spacing: 0 !important; border: 0 !important; line-height: 1.3 !important; box-shadow: none !important;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu li a:hover, .dropdown-menu > li > a:focus, .desktop-toolbar .dropdown-menu a:hover, ul.user-menu li a:hover { background: var(--brand-soft) !important; color: var(--brand) !important; }
+.dropdown-menu .divider, .dropdown-menu li.divider { background: var(--line-2) !important; margin: 6px 4px !important; height: 1px; }
+.dropdown-menu .suitepicon, .dropdown-menu .glyphicon { color: var(--brand) !important; }
+.dropdown-menu .dropdown-header, .dropdown-menu li.dropdown-header { color: var(--muted) !important; font-size: 11.5px !important; letter-spacing: .08em !important; text-transform: uppercase !important; padding: 8px 14px 4px !important; }
+/* the open top-menu item: soft highlight, no coral strip */
+.desktop-toolbar ul.navbar-nav > li.open > a, .desktop-toolbar ul.navbar-nav > li.open > a:hover, .desktop-toolbar ul.navbar-nav > li.open > a:focus,
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+  background: rgba(255, 255, 255, .12) !important; color: #fff !important; border-top: 0 !important; box-shadow: none !important; border-radius: 10px !important;
+}
+.desktop-toolbar .topnav, .desktop-toolbar li.topnav > a, .desktop-toolbar .currentTab, .desktop-toolbar .notCurrentTab { border-top: 0 !important; box-shadow: none !important; }
+.desktop-toolbar .currentTabLeft, .desktop-toolbar .notCurrentTabLeft { display: none !important; }
+
+/* kill the old purple block and coral stripe behind open / current top-menu items; only the soft pill remains */
+nav.navbar .desktop-toolbar ul.navbar-nav > li, nav.navbar .desktop-toolbar ul.navbar-nav > li.open, nav.navbar .desktop-toolbar ul.navbar-nav > li.topnav, nav.navbar .desktop-toolbar ul.navbar-nav > li.current,
+nav.navbar .desktop-toolbar ul.navbar-nav > li.open:hover, nav.navbar .desktop-toolbar ul.navbar-nav > li:hover { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+nav.navbar .desktop-toolbar ul.navbar-nav > li > a::before, nav.navbar .desktop-toolbar ul.navbar-nav > li > a::after,
+nav.navbar .desktop-toolbar ul.navbar-nav > li.open > a::before, nav.navbar .desktop-toolbar ul.navbar-nav > li.open > a::after, nav.navbar .desktop-toolbar .currentTab::before, nav.navbar .desktop-toolbar .currentTab::after { content: none !important; display: none !important; border: 0 !important; }
+nav.navbar .desktop-toolbar ul.navbar-nav > li > a, nav.navbar .desktop-toolbar ul.navbar-nav > li.open > a { border-top: 0 !important; border-bottom: 0 !important; }
+nav.navbar .desktop-toolbar ul.navbar-nav > li.open > a { background: rgba(255, 255, 255, .14) !important; }
+nav.navbar .desktop-toolbar .currentTab, nav.navbar .desktop-toolbar .currentTab a { background: rgba(99, 102, 241, .30) !important; border: 0 !important; }
+nav.navbar .desktop-toolbar .currentTabLeft, nav.navbar .desktop-toolbar span.currentTabLeft, nav.navbar .desktop-toolbar .notCurrentTabLeft, nav.navbar .desktop-toolbar .notCurrentTabRight { display: none !important; }
+
+/* the coral stripe was a 3px top border on the menu link itself */
+nav.navbar .desktop-toolbar a.grouptab, nav.navbar .desktop-toolbar a.dropdown-toggle.grouptab, nav.navbar .desktop-toolbar a.grouptab:hover, nav.navbar .desktop-toolbar a.grouptab:focus, nav.navbar .desktop-toolbar .open > a.grouptab,
+nav.navbar .desktop-toolbar .topnav a, nav.navbar .desktop-toolbar .topnav a:hover { border-top: 0 !important; border-top-width: 0 !important; border-color: transparent !important; outline: 0 !important; }
+/* current tab: one soft pill, not a pill on top of a second shaded box */
+nav.navbar .desktop-toolbar span.currentTab, nav.navbar .desktop-toolbar .currentTab { background: transparent !important; box-shadow: none !important; }
+nav.navbar .desktop-toolbar span.currentTab a { background: rgba(99, 102, 241, .32) !important; color: #fff !important; }
+/* items inside the Create dropdown were solid indigo (they matched the Create-button rule) */
+nav.navbar #quickcreatetop .dropdown-menu a, nav.navbar #quickcreatetop .dropdown-menu li a, nav.navbar li#quickcreatetop ul a {
+  background: transparent !important; color: var(--ink-2) !important; box-shadow: none !important; padding: 10px 14px !important; height: auto !important; display: block !important; width: auto !important; font-weight: 550 !important; font-size: 14.5px !important; letter-spacing: 0 !important;
+}
+nav.navbar #quickcreatetop .dropdown-menu a:hover, nav.navbar #quickcreatetop .dropdown-menu li a:hover { background: var(--brand-soft) !important; color: var(--brand) !important; filter: none !important; }
+nav.navbar #quickcreatetop .dropdown-menu { right: 0 !important; left: auto !important; }
+
+/* ==== Top bar, right side: Create, search, alerts and profile as one even row ==== */
+nav.navbar { min-height: 58px !important; height: 58px !important; }
+.desktop-bar { height: 58px !important; display: flex !important; align-items: center !important; margin: 0 !important; padding: 0 18px 0 0 !important; position: absolute; right: 0; top: 0; background: transparent !important; }
+.desktop-bar ul#toolbar, .desktop-bar ul.toolbar { display: flex !important; align-items: center !important; gap: 10px; height: 58px; margin: 0 !important; padding: 0 !important; list-style: none; }
+.desktop-bar ul#toolbar > li { float: none !important; margin: 0 !important; padding: 0 !important; height: 40px; min-height: 0; display: flex !important; align-items: center; position: relative; background: transparent !important; }
+.desktop-bar ul#toolbar > li > a.dropdown-toggle, .desktop-bar ul#toolbar > li > button, .desktop-bar .searchbutton, .desktop-bar .alertsButton, .desktop-bar #with-label {
+  height: 40px !important; min-width: 40px; margin: 0 !important; display: inline-flex !important; align-items: center; justify-content: center; border: 0 !important; border-radius: 12px !important; box-shadow: none !important; line-height: 1 !important; cursor: pointer; transition: background .15s;
+}
+/* Create = the one primary action */
+.desktop-bar #quickcreatetop > a.dropdown-toggle, .desktop-bar #quickcreatetop > a { background: linear-gradient(135deg, var(--brand), var(--violet)) !important; color: #fff !important; padding: 0 16px !important; font-size: 13.5px !important; font-weight: 700 !important; letter-spacing: .02em !important; text-transform: none !important; gap: 8px; box-shadow: 0 6px 16px rgba(79, 70, 229, .35) !important; }
+.desktop-bar #quickcreatetop > a:hover { filter: brightness(1.08); }
+/* search, alerts and profile = quiet icon buttons */
+.desktop-bar .searchbutton, .desktop-bar .alertsButton, .desktop-bar #with-label, .desktop-bar #with-label.user-menu-button {
+  background: rgba(255, 255, 255, .08) !important; color: #e5e7eb !important; padding: 0 !important; width: 40px;
+}
+nav.navbar .desktop-bar #toolbar button.searchbutton, nav.navbar .desktop-bar #toolbar button.alertsButton, nav.navbar .desktop-bar #toolbar button#with-label, nav.navbar .desktop-bar #toolbar li > button.btn {
+  background: rgba(255, 255, 255, .08) !important; border: 0 !important; color: #e5e7eb !important; width: 40px; padding: 0 !important;
+}
+nav.navbar .desktop-bar #toolbar button#with-label { width: auto; padding: 0 12px !important; }
+nav.navbar .desktop-bar #toolbar button.searchbutton:hover, nav.navbar .desktop-bar #toolbar button.alertsButton:hover, nav.navbar .desktop-bar #toolbar button#with-label:hover { background: rgba(255, 255, 255, .18) !important; }
+.desktop-bar .searchbutton:hover, .desktop-bar .alertsButton:hover, .desktop-bar #with-label:hover { background: rgba(255, 255, 255, .18) !important; }
+.desktop-bar .searchbutton, .desktop-bar .alertsButton { font-size: 18px !important; }
+.desktop-bar .searchbutton::before, .desktop-bar .alertsButton::before { font-size: 18px; }
+.desktop-bar .suitepicon { color: #e5e7eb !important; }
+/* profile: round avatar-style button, tiny caret instead of the big white triangle */
+.desktop-bar #with-label.user-menu-button { width: auto; padding: 0 10px !important; gap: 4px; border-radius: 999px !important; }
+.desktop-bar #with-label .suitepicon-action-current-user { font-size: 22px !important; width: auto; height: auto; position: static; }
+.desktop-bar #with-label .suitepicon-action-caret { font-size: 9px !important; opacity: .7; width: auto; height: auto; position: static; margin: 0; }
+.desktop-bar #with-label .globallabel-user { display: none !important; }
+.desktop-bar .alert_count, .desktop-bar .alerts-count { background: #ef4444 !important; color: #fff !important; border-radius: 999px; font-size: 10px; min-width: 16px; height: 16px; line-height: 16px; padding: 0 4px; position: absolute; top: -4px; right: -4px; }
+.desktop-bar ul#toolbar .dropdown-menu { right: 0 !important; left: auto !important; }
+
+/* ==== Narrow windows (the hamburger layout) ==== */
+.mobile-bar, .mobile-bar ul, ul#toolbar.toolbar, .mobile-bar .toolbar { background: var(--nav) !important; border: 0 !important; }
+.mobile-bar .suitepicon, .mobile-bar .navbar-toggle .icon-bar { color: #e5e7eb !important; }
+.navbar-toggle .icon-bar { background: #e5e7eb !important; }
+.mobile-bar #quickcreatetop > a, .mobile-bar .dropdown-toggle { border-radius: 10px !important; }
+@media (max-width: 767px) {
+  .navbar-inverse .navbar-header { background: var(--nav) !important; }
+  #content, .bootstrap-container { padding-left: 8px !important; padding-right: 8px !important; }
+  .moduleTitle h2, .module-title-text { font-size: 24px !important; }
+  .tab-content { padding: 6px 8px !important; }
+  .detail-view-row-item { display: block !important; }
+}
+
+/* ==== Home dashboard page ==== */
+/* the dashboard area was a framed box with a divider line down the middle; let the widgets sit directly on the page */
+.tab-content:has(.dashletPanel), .tab-content:has(.dashletPanel) .tab-pane { background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; }
+.tab-content:has(.dashletPanel) table, .tab-content:has(.dashletPanel) td, .tab-content:has(.dashletPanel) tr { border: 0 !important; background: transparent !important; }
+.tab-content:has(.dashletPanel) [class*="col-"], .tab-content:has(.dashletPanel) .dashboard-column, .tab-content:has(.dashletPanel) ul.dashlet-column { border: 0 !important; }
+.tab-content:has(.dashletPanel) .row > div { padding: 0 10px !important; }
+.tab-content:has(.dashletPanel) { margin-top: 6px !important; }
+/* pager rows inside widgets: hide when every button is disabled (nothing to page through) */
+.dashletPanel tr.pagination:not(:has(button:not([disabled]):not(.disabled))), .dashletPanel .pagination:not(:has(button:not([disabled]):not(.disabled))) { display: none !important; }
+.dashletPanel .pagination button, .dashletPanel .pagination .btn { background: #fff !important; border: 1px solid var(--line) !important; color: var(--ink-2) !important; box-shadow: none !important; }
+.dashletPanel .suitepicon-action-first, .dashletPanel .suitepicon-action-last, .dashletPanel .suitepicon-action-left, .dashletPanel .suitepicon-action-right { color: var(--ink-2) !important; }
+/* the "Post" box and stream rows */
+.dashletPanel input[type=text] { min-height: 38px; }
+.dashletPanel .sugarFeedDashlet, .dashletPanel #sugarFeedDashlet { padding: 8px 14px; }
+
+/* ---- AI Follow-up Suggestions widget content ---- */
+.aif { padding: 6px 8px 10px; }
+.aif-head { display: flex; gap: 8px; padding: 10px 10px 6px; }
+.aif-chip { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+.aif-chip.urgent { background: #fee2e2; color: #b91c1c; }
+.aif-chip.soon { background: #fef3c7; color: #92400e; }
+a.aif-row { display: flex; align-items: center; gap: 12px; padding: 11px 10px; border-radius: 12px; text-decoration: none !important; color: var(--ink) !important; transition: background .12s; }
+a.aif-row:hover { background: var(--brand-soft); }
+.aif-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; }
+.aif-row.urgent .aif-dot { background: #dc2626; box-shadow: 0 0 0 4px #fee2e2; }
+.aif-row.soon .aif-dot { background: #f59e0b; box-shadow: 0 0 0 4px #fef3c7; }
+.aif-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.aif-main b { font-size: 14.5px; font-weight: 650; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aif-main small { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.aif-product { flex: none; font-size: 12px; font-weight: 600; color: #4b5563; background: #f3f4f6; padding: 3px 10px; border-radius: 99px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aif-go { flex: none; color: #c0c4d6; font-size: 22px; line-height: 1; }
+a.aif-row:hover .aif-go { color: var(--brand); }
+.aif-empty { display: flex; flex-direction: column; gap: 2px; padding: 22px 18px; }
+.aif-empty b { color: var(--ink); } .aif-empty span { color: var(--muted); font-size: 13.5px; }
+
+/* ---- Small finishing touches ----------------------------------------------------------------------------- */
+.navbar-inverse { box-shadow: 0 6px 24px rgba(15,23,42,.18) !important; }
+.sidebar_container { box-shadow: 1px 0 0 var(--line), 8px 0 30px rgba(16,24,40,.03) !important; }
+#content, .bootstrap-container { transition: none; }
+.tab-content, .panel.panel-default, .dashletPanel, .listViewBody, .list-view-rounded-corners { border-radius: var(--radius) !important; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+::placeholder { color: #9ca3af !important; }

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Dev Copilot</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--text:#1b1f27;--muted:#5d6675;--line:#dde1e8;--accent:#1f5eff;--accent-text:#fff;--ok:#117a3d;--okbg:#e4f5ea;--bad:#b3261e;--badbg:#fdeceb;--add:#e4f5ea;--del:#fdeceb;--code:#12151c;--codetext:#e6e9ef}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1218;--card:#181c25;--text:#e8ebf1;--muted:#98a2b3;--line:#2a303c;--accent:#6b97ff;--accent-text:#0b1020;--ok:#5fd18a;--okbg:#14301f;--bad:#ff8a80;--badbg:#3a1a18;--add:#14301f;--del:#3a1a18;--code:#0a0c11}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
+header{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--line)}
+header b{font-size:16px}
+.badge{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--badbg);color:var(--bad)}
+.badge.live{background:var(--okbg);color:var(--ok)}
+header .sp{flex:1}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 14px}
+button.primary{background:var(--accent);color:var(--accent-text);border-color:var(--accent);font-weight:600}
+button:disabled{opacity:.45;cursor:not-allowed}
+nav{display:flex;gap:4px;flex-wrap:wrap;padding:10px 20px;background:var(--card);border-bottom:1px solid var(--line);font-size:13px}
+nav span{padding:4px 12px;border-radius:99px;color:var(--muted)}
+nav span.done{color:var(--ok);background:var(--okbg);cursor:pointer}
+nav span.now{background:var(--accent);color:var(--accent-text);font-weight:600}
+main{max-width:960px;margin:0 auto;padding:24px 20px 90px}
+h1{font-size:26px;margin:0 0 6px}h2{font-size:18px;margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
+.muted{color:var(--muted)}
+textarea{width:100%;min-height:90px;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+.chips button{font-size:13px;padding:4px 10px;margin:4px 6px 0 0;border-radius:99px}
+.cols{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+@media(max-width:700px){.cols{grid-template-columns:1fr}}
+ul.plain{list-style:none;padding:0;margin:0}ul.plain li{padding:4px 0}
+pre{background:var(--code);color:var(--codetext);padding:14px;border-radius:8px;overflow:auto;font:13px/1.5 ui-monospace,Consolas,monospace;margin:0}
+.diff div{padding:0 6px}.diff .a{background:var(--add);color:var(--ok)}.diff .d{background:var(--del);color:var(--bad)}
+.diff{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 0;font:13px/1.6 ui-monospace,Consolas,monospace;white-space:pre-wrap}
+.t{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}.t:last-child{border:0}
+.pill{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;height:fit-content}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.bad{background:var(--badbg);color:var(--bad)}
+table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.bar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:16px;align-items:center;justify-content:space-between;padding:10px 20px;background:var(--card);border-top:1px solid var(--line)}
+.err{color:var(--bad)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:s .8s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes s{to{transform:rotate(360deg)}}
+.bell{padding:8px 12px;border-radius:8px;background:var(--okbg);color:var(--ok);margin:6px 0}
+select{font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+</style>
+</head>
+<body>
+<header>
+  <b>AI Dev Copilot</b><span class="muted">CS Euro Auto CRM</span>
+  <span class="badge" id="env">env: DEV (replica)</span>
+  <span class="badge" id="src">recorded AI responses</span>
+  <span class="sp"></span>
+  <button id="reset">Reset demo</button>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<div class="bar"><span id="timer"></span><span><button id="back">Back</button> <button id="next" class="primary">Next</button></span></div>
+
+<script>
+const STEPS = ['Requirement', 'Code', 'Test', 'Debug', 'Release'];
+// Manual minutes are placeholders for the presenter to replace with real estimates.
+const MANUAL = { Requirement: 8, Code: 15, Test: 10, Debug: 8, Release: 4 };
+const app = { screen: 'S1', data: {}, startedAt: null, stageStart: {}, stageSecs: {}, nextAction: null };
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const api = (path, body) => fetch('/api/' + path, body === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }).then((r) => r.json());
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+const loading = (msg) => `<div class="card"><span class="spin"></span>${esc(msg)}</div>`;
+
+const SCREEN_STEP = { S2: 0, S3: 0, S4: 1, S5: 2, S6: 3, S7: 4, S8: 4, S9: 4 };
+const ORDER = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9'];
+
+function stageOf(screen) { return STEPS[SCREEN_STEP[screen]]; }
+
+function go(screen) {
+  const st = stageOf(screen);
+  if (st && app.startedAt && app.stageStart[st] === undefined) app.stageStart[st] = Date.now();
+  app.screen = screen;
+  render();
+}
+function finishStage(screen) {
+  const st = stageOf(screen);
+  if (st && app.stageStart[st] !== undefined) app.stageSecs[st] = (Date.now() - app.stageStart[st]) / 1000;
+}
+
+function renderNav() {
+  const cur = SCREEN_STEP[app.screen];
+  $('#nav').innerHTML = STEPS.map((s, i) => {
+    const cls = cur === undefined ? '' : i < cur ? 'done' : i === cur ? 'now' : '';
+    return `<span class="${cls}" data-i="${i}">${i + 1} ${s}</span>`;
+  }).join('') + `<span class="muted" style="margin-left:auto">${cur === undefined ? '' : `Stage ${cur + 1} of 5`}</span>`;
+}
+
+function setNext(label, fn, enabled = true) {
+  const n = $('#next'); n.textContent = label; n.disabled = !enabled; app.nextAction = fn;
+}
+function setBack(screen) { const b = $('#back'); b.style.visibility = screen ? 'visible' : 'hidden'; b.onclick = () => go(screen); }
+
+const screens = {
+  S1() {
+    setBack(null); setNext('Start the demo', () => { app.startedAt = Date.now(); go('S2'); });
+    return `<h1>From one sentence to a released CRM feature</h1>
+      <p class="muted">AI across the whole software development life cycle, on the CS Euro Auto CRM.</p>
+      <div class="card"><h2>Scenario: Booking Refund notification</h2>
+      <p>Today a developer reads the request, writes the hook, writes tests by hand, hunts bugs in logs and writes release notes.
+      Typical manual time: <b>${Object.values(MANUAL).reduce((a, b) => a + b)} min</b> <span class="muted">(estimate)</span>.</p></div>`;
+  },
+  S2() {
+    setBack('S1');
+    const text = app.data.reqText || 'After Booking Refund, notify the sales consultant and manager.';
+    const ex = ['After Booking Refund, notify the sales consultant and manager.', 'When a lead is converted, assign the opportunity to the lead owner.'];
+    setNext('Generate requirement', async () => {
+      app.data.reqText = $('#req').value;
+      $('#main').innerHTML = loading('Reading the sales-stage flow...');
+      $('#next').disabled = true;
+      try { app.data.req = await api('requirement', { text: app.data.reqText }); go('S3'); }
+      catch (e) { $('#main').innerHTML = `<p class="err">${esc(e.message)}</p><button onclick="render()">Retry</button>`; }
+    });
+    return `<h2>Describe what the business needs</h2><textarea id="req">${esc(text)}</textarea>
+      <div class="chips muted">Examples: ${ex.map((e, i) => `<button data-ex="${i}">${esc(e.slice(0, 40))}...</button>`).join('')}</div>`
+      + `<script>document.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{$('#req').value=${JSON.stringify(ex)}[b.dataset.ex]})<\/script>`;
+  },
+  S3() {
+    setBack('S2');
+    const r = app.data.req; const a = r.affected || {};
+    setNext('Approve and code', () => { finishStage('S3'); app.data.req.criteria = [...document.querySelectorAll('[data-c]:checked')].map((c) => c.dataset.c); go('S4'); });
+    return `<div class="cols"><div>
+      <div class="card"><h2>User story</h2><p>${esc(r.story)}</p></div>
+      <div class="card"><h2>Acceptance criteria</h2><ul class="plain">${r.criteria.map((c) => `<li><label><input type="checkbox" checked data-c="${esc(c)}"> ${esc(c)}</label></li>`).join('')}</ul></div></div>
+      <div class="card"><h2>Affected</h2><ul class="plain"><li><b>Module</b><br>${esc(a.module)}</li><li><b>Stage</b><br>${esc(a.stage)}</li><li><b>Roles</b><br>${esc(a.roles)}</li><li><b>Hook</b><br>${esc(a.hook)}</li></ul>
+      <p class="muted">Source: ${esc(r.source)}</p></div></div>`;
+  },
+  S4() {
+    setBack('S3');
+    const c = app.data.code, dep = app.data.deployed;
+    if (!c) {
+      setNext('Run tests', null, false);
+      api('code', {}).then((x) => { app.data.code = x; render(); });
+      return loading('Writing the SuiteCRM logic hook...');
+    }
+    setNext('Run tests', () => { finishStage('S4'); go('S5'); }, !!dep);
+    const lines = c.php.split('\n').map((l) => `<div class="a">+ ${esc(l)}</div>`).join('');
+    return `<h2>Generated change: <code>${esc(c.file)}</code></h2><div class="diff">${lines}</div>
+      <div class="card"><b>Registered in logic_hooks.php (+${c.hookRegistration.split('\n').length} lines)</b><div class="diff">${c.hookRegistration.split('\n').map((l) => `<div class="a">+ ${esc(l)}</div>`).join('')}</div></div>
+      <div class="card"><b>Deploy to DEV:</b> <button class="primary" id="dep" ${dep ? 'disabled' : ''}>Deploy</button>
+      <span style="margin-left:12px">${dep ? `Deployed ${esc(dep.at)} to ${esc(dep.env)}` : 'Not deployed'}</span></div>
+      <script>$('#dep').onclick=async()=>{$('#dep').disabled=true;app.data.deployed=await api('deploy',{});render()}<\/script>`;
+  },
+  S5() {
+    setBack('S4');
+    const t = app.data.tests;
+    if (!t) {
+      setNext('Next', null, false);
+      return `<div class="card"><button class="primary" id="run">Run all tests</button> <span class="muted">Tests are generated from the sales-stage flow and run against the real SuiteCRM.</span></div>
+      <script>$('#run').onclick=async()=>{$('#main').innerHTML=loading('Running tests...');app.data.tests=await api('tests',{});setTimeout(render,500)}<\/script>`;
+    }
+    const failed = t.failed > 0;
+    setNext(failed ? 'Investigate failure' : 'Release notes', () => { finishStage('S5'); if (failed) go('S6'); else { app.stageSecs.Debug = app.stageSecs.Debug || 0; go('S7'); } });
+    return `<h2>Generated tests (${t.results.length}) <button id="run" style="margin-left:10px">Run again</button></h2><div class="card">
+      ${t.results.map((r) => `<div class="t"><span class="pill ${r.ok ? 'ok' : 'bad'}">${r.ok ? 'PASS' : 'FAIL'}</span><div>${esc(r.name)}${r.ok ? '' : `<br><span class="err">expected ${esc(r.expected)}, got ${esc(r.actual)}</span>`}</div></div>`).join('')}</div>
+      <p><b>${t.passed} passed, ${t.failed} failed.</b> Sales stages covered by tests: ${t.stageCoverage} of ${t.stageTotal}.</p>
+      <script>$('#run').onclick=async()=>{app.data.tests=await api('tests',{});render()}<\/script>`;
+  },
+  S6() {
+    setBack('S5');
+    const d = app.data.debug;
+    if (!d) {
+      setNext('Re-run tests', null, false);
+      api('debug', {}).then((x) => { app.data.debug = x; render(); });
+      return loading('Reading the failing test and the code...');
+    }
+    setNext('Re-run tests', null, false);
+    const p = d.patch;
+    const fixed = app.data.fixed;
+    if (fixed) setNext('Re-run tests', async () => { finishStage('S6'); app.data.tests = await api('tests', {}); app.data.fixed = false; go('S5'); });
+    return `<div class="card"><h2>AI analysis</h2><p><b>Cause:</b> ${esc(d.cause)}</p><p><b>Location:</b> ${esc(d.location)}<br><b>Confidence:</b> ${esc(d.confidence)}</p></div>
+      <h2>Proposed fix</h2><div class="diff">${p.before.map((l) => `<div class="d">- ${esc(l)}</div>`).join('')}${p.after.map((l) => `<div class="a">+ ${esc(l)}</div>`).join('')}</div>
+      <p>${fixed ? '<b class="muted">Patch applied to crm/quotation.js. Re-run the tests.</b>' : '<button class="primary" id="fix">Apply fix</button>'} <span id="fe" class="err"></span></p>
+      <script>if($('#fix'))$('#fix').onclick=async()=>{const r=await api('fix',{patch:app.data.debug.patch});if(r.error){$('#fe').textContent=r.error}else{app.data.fixed=true;render()}}<\/script>`;
+  },
+  S7() {
+    setBack('S5');
+    const n = app.data.notes;
+    if (!n) {
+      setNext('See the impact', null, false);
+      api('release', {}).then((x) => { app.data.notes = x; render(); });
+      return loading('Writing release notes from the diff and test results...');
+    }
+    setNext('See the impact', () => { finishStage('S7'); go('S8'); });
+    return `<h2>Release notes ${esc(n.version)} <span class="muted">(auto-generated)</span></h2><div class="card">
+      ${n.lines.map(([k, v]) => `<p><b>${esc(k)}:</b> ${esc(v)}</p>`).join('')}</div>
+      <button id="copy">Copy</button><script>$('#copy').onclick=()=>navigator.clipboard.writeText(app.data.notes.lines.map(l=>l.join(': ')).join('\\n'))<\/script>`;
+  },
+  S8() {
+    setBack('S7');
+    setNext('Show in the CRM', () => go('S9'));
+    const t = app.data.tests;
+    const rows = STEPS.map((s) => ({ s, manual: MANUAL[s], ai: app.stageSecs[s] || 0 }));
+    const totM = rows.reduce((a, r) => a + r.manual, 0), totA = rows.reduce((a, r) => a + r.ai, 0);
+    return `<h1>Impact</h1><div class="card"><table><tr><th>Stage</th><th class="n">Manual (min, estimate)</th><th class="n">With AI (measured)</th></tr>
+      ${rows.map((r) => `<tr><td>${r.s}</td><td class="n">${r.manual}:00</td><td class="n">${fmt(r.ai)}</td></tr>`).join('')}
+      <tr><th>Total</th><th class="n">${totM}:00</th><th class="n">${fmt(totA)}</th></tr></table></div>
+      <p><b>Bugs caught before release:</b> ${app.data.debug ? 1 : 0} &nbsp; <b>Stages covered by tests:</b> ${t ? t.stageCoverage : 0} of ${t ? t.stageTotal : 17}</p>
+      <p class="muted">Manual times are estimates. AI times are measured in this run from opening a stage to finishing it, including review time.</p>`;
+  },
+  S9() {
+    setBack('S8'); setNext('Done', null, false);
+    if (!app.data.crm) { api('crm').then((x) => { app.data.crm = x; render(); }); return loading('Opening the opportunity...'); }
+    const c = app.data.crm, o = c.opportunity;
+    return `<div class="card"><div class="muted">Live from the real SuiteCRM database (${esc(app.crmUrl)})</div>
+      <h2>Opportunity: ${esc(o.name)}</h2>
+      <p><a href="${esc(app.crmUrl)}/${esc(c.detailUrl)}" target="_blank">Open this opportunity in SuiteCRM</a> <span class="muted">(log in as admin)</span></p>
+      <p>Sales stage: <select id="stg">${c.stages.map((s) => `<option ${s === o.stage ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select> <button class="primary" id="sv">Save</button></p>
+      <h2>Notifications</h2>${c.notifications.length ? c.notifications.map((n) => `<div class="bell">To ${esc(n.to)}: "${esc(n.message)}"</div>`).join('') : '<p class="muted">None yet. Change the stage to Booking Refund and save.</p>'}</div>
+      <script>$('#sv').onclick=async()=>{app.data.crm=await api('crm/save',{stage:$('#stg').value});render()}<\/script>`;
+  },
+};
+
+function render() {
+  renderNav();
+  const html = screens[app.screen]();
+  $('#main').innerHTML = html;
+  $('#main').querySelectorAll('script').forEach((s) => { const n = document.createElement('script'); n.textContent = s.textContent; s.replaceWith(n); });
+}
+
+$('#next').onclick = () => app.nextAction && app.nextAction();
+$('#nav').onclick = (e) => {
+  const i = e.target.dataset.i; if (i === undefined || !e.target.classList.contains('done')) return;
+  go(['S2', 'S4', 'S5', 'S6', 'S7'][i]);
+};
+$('#reset').onclick = async () => {
+  await api('reset', {});
+  Object.assign(app, { screen: 'S1', data: {}, startedAt: null, stageStart: {}, stageSecs: {} });
+  render();
+};
+setInterval(() => { $('#timer').textContent = app.startedAt ? `Timer: AI ${fmt((Date.now() - app.startedAt) / 1000)}  |  Manual estimate: ${Object.values(MANUAL).reduce((a, b) => a + b)}:00` : ''; }, 500);
+api('state').then((s) => { app.crmUrl = s.crmUrl; $('#env').textContent = 'env: DEV (SuiteCRM 7.15.2)'; $('#src').textContent = s.live ? 'live Claude' : 'recorded AI responses'; $('#src').classList.toggle('live', s.live); });
+render();
+</script>
+</body>
+</html>

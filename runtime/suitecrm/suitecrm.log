@@ -1,0 +1,17 @@
+Thu Oct 22 2026 at 13:19:09 [16224][1][SECURITY] OutboundEmail::checkSavePermissions - not logged in - skipping check
+Thu Oct 22 2026 at 13:19:09 [16224][1][FATAL] User update error: Temp User is not retrieved at ID 1, boolean given
+Thu Oct 22 2026 at 13:19:09 [16224][1][FATAL] Email address save error
+Thu Oct 22 2026 at 13:19:13 [16224][1][SECURITY] Invalid ext  logger_file_ext : ''.
+Thu Oct 22 2026 at 13:19:13 [16224][1][SECURITY] Setting logger_file_ext to '.log'.
+Thu Oct 22 2026 at 13:19:13 [16224][1][SECURITY] Setting logger_file_name to ''.
+Thu Oct 22 2026 at 13:19:13 [16224][1][SECURITY] Log file extension can't be blank.
+Thu Oct 22 2026 at 13:19:13 [16224][1][SECURITY] Setting logger_file_name to ''.
+Thu Oct 22 2026 at 13:19:13 [16224][1][SECURITY] Log file extension can't be blank.
+Thu Oct 22 2026 at 13:19:22 [16224][-none-][FATAL] FAILED LOGIN:attempts[1], ip[127.0.0.1], username[admin]
+Thu Oct 22 2026 at 13:21:15 [21744][1][FATAL] Email address save error
+Thu Oct 22 2026 at 13:21:15 [21744][1][FATAL] Email address save error
+Thu Oct 22 2026 at 13:59:30 [19868][-none-][FATAL] SECURITY: User authentication for admin failed
+Thu Oct 22 2026 at 13:59:30 [19868][-none-][FATAL] FAILED LOGIN:attempts[1], ip[127.0.0.1], username[admin]
+Thu Oct 22 2026 at 13:59:52 [19868][-none-][FATAL] SECURITY: User authentication for admin failed
+Thu Oct 22 2026 at 13:59:52 [19868][-none-][FATAL] FAILED LOGIN:attempts[1], ip[127.0.0.1], username[admin]
+Thu Oct 22 2026 at 13:59:59 [19868][-none-][FATAL] FAILED LOGIN:attempts[1], ip[127.0.0.1], username[admin]
